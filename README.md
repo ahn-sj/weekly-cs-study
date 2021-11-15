@@ -60,12 +60,39 @@ WHERE ROWNUM < 10;
 
 <br>
 
+`ROWNUM`의 순번 할당은 WHERE절이 처리된 이후에 할당된다.<br>
+ㄴ 이 말은 즉, 쿼리에 정렬(`order by`)/그룹 조건(`group by`)이 있다면 ROWNUM이 먼저 실행되어 원하는 데이터를 추출 할 수 없다는 말과 같다
+
+<br>
+
+### **SELECT문 쿼리 실행 순서**
+SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같은 구문을 실행할 때 실행 순서가 존재한다.
+
+쿼리 구문은 총 6가지가 존재한다.
+
+1. SELECT
+2. FROM
+3. WHERE
+4. GROUP BY
+5. HAVING
+6. ORDER BY
+
+위 구문들은 쿼리에서 아래와 같은 순서로 작동한다
+
+**FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY**
+
+<br>
+
+---
+
+<br>
+
 ### **ROWNUM 주의사항**
 위의 쿼리에서 WHERE절에 바로 ROWNUM조건을 `BETWEEN 6 AND 10`과 같은 조건은 불가능하다.
 
 <br>
 
-#### 그 이유는 아래와 같다.
+#### 위 WHERE절에 조건을 저렇게 주면 데이터 추출이 불가능한 이유는 아래와 같다.
 
 - **ROWNUM은 첫 번째 값이 할당된 이후부터 증가한다.**<br>
 
@@ -81,7 +108,7 @@ WHERE ROWNUM < 10;
     <br>
 
     결론적으로, 이러한 이유들로 ROWNUM은 첫번째 값이 할당되지 않으면 어떠한 데이터도 추출되지 않는다.  
-    ( 1이 있어야 2가 있고 2가 있어야 3이 있을 수 있는 속성을 가짐 )
+    ( 1이 있어야 2가 있고 2가 있어야 3이 있을 수 있는 속성을 가짐 )<br>
 
 <br>
 
@@ -113,8 +140,7 @@ WHERE ROWNUM < 10;
     
     <br>
 
-    또한, `ROWNUM`의 순번 할당은 WHERE절이 처리된 이후에 할당된다.
-    정리하자면, 쿼리에 정렬(`order by`)/그룹 조건(`group by`)이 있다면 ROWNUM이 먼저 실행되어 원하는 데이터를 추출 할 수 없다.
+    
     ```
     -- 잘못된 쿼리 (원하는 데이터 추출 불가)
     -- 먼저 5개의 행을 추출한 후, 추출된 데이터들로 정렬 수행
@@ -145,12 +171,6 @@ WHERE ROWNUM < 10;
 
 [참고자료1] https://happyonion.tistory.com/70 <br>
 [참고자료2] https://turing0809.tistory.com/48 <br>
-
-<br><br>
-
-## **뉴렉처 ROWNUM강의보고 부족한 내용 추가(21.11.15 예정)**
-
-https://www.youtube.com/watch?v=ekEBoJn2gF8
 
 <br>
 
