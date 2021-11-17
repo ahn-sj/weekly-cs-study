@@ -28,14 +28,14 @@ Ex) 오라클에서 사용 가능하고 주로 페이징처리, TOP-N Query 등�
 <br>
 
 ### **ROWNUM의 사용은 아래와 같다.**
-```
+```sql
 -- 기본적인 쿼리
 SELECT *
 FROM EMP
-WHERE ROWNUM < 10;
+WHERE ROWNUM <= 10;
 ```
 
-```
+```sql
 -- 기존 테이블 데이터
 23	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
 22	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
@@ -44,11 +44,10 @@ WHERE ROWNUM < 10;
 1	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
 ```
 
-```
+```sql
 -- 기본적인 쿼리 결과
 1	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
 2	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
-3	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
 ...(생략)
 9	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
 10	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
@@ -115,9 +114,9 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
 - **그러나, ROWNUM이 1보다 큰 값을 추출하고 싶다면 서브쿼리를 이용하면 된다.**<br>
  ㄴ 단, **반.드.시.** 별칭을 붙여 사용해야 한다.
  <br><br>
-    예시로, 1~10까지의 게시글이 1페이지, 2~20까지의 게시글이 2페이지, ... 이러한 경우에 사용된다.<br>
+    예시로, 1-10까지의 게시글이 1페이지, 11-20까지의 게시글이 2페이지, ... 이러한 경우에 사용된다.<br>
     
-    ```
+    ```sql
     -- 서브쿼리를 이용한 ROWNUM이 1보다 큰 데이터 추출 쿼리
     SELECT * 
     FROM (SELECT ROWNUM RN, E.*
@@ -125,7 +124,7 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
     WHERE RN BETWEEN 11 AND 20;
     ```
 
-    ```
+    ```sql
     -- 서브쿼리를 이용한 ROWNUM 출력
     10	10	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
     11	11	테스트 제목	테스트 내용	user00	21/11/14	21/11/14
@@ -141,7 +140,7 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
     <br>
 
     
-    ```
+    ```sql
     -- 잘못된 쿼리 (원하는 데이터 추출 불가)
     -- 먼저 5개의 행을 추출한 후, 추출된 데이터들로 정렬 수행
     SELECT * 
@@ -149,14 +148,14 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
     WHERE ROWNUM <= 5 
     ORDER BY SAL DESC;
     ```
-    ```
+    ```sql
     -- 정상 쿼리 (원하는 데이터 추출 가능)
     -- 전체 EMP테이블을 조회하고 정렬한 결과에서 상위 5개 추출
     SELECT *
-    FROM (SELECT * 
-          FROM EMP 
+    FROM (SELECT ROWNUM RN, E.* 
+          FROM EMP E
           ORDER BY SAL DESC)
-    WHERE ROWNUM <= 5;
+    WHERE RN <= 5;
     ```
 
 <br>
@@ -165,12 +164,18 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
 ㄴ `ROWNUM = 1`은 데이터 추출이 가능하지만 `ROWNUM = 2`는 데이터가 추출되지 않는다
 
 데이터 여러개를 가져오는 경우<br>
-ㄴ WHERE절에 `ROWNUM < 10`은 가능하지만 `ROWNUM > 10`은 데이터가 추출되지 않는다. <br> ㄴ서브쿼리로 해결
+ㄴ WHERE절에 `ROWNUM < 10`은 가능하지만 `ROWNUM > 10`은 데이터가 추출되지 않는다. <br>
 
 <br>
 
 [참고자료1] https://happyonion.tistory.com/70 <br>
 [참고자료2] https://turing0809.tistory.com/48 <br>
+
+<br><br>
+
+### **1차 피드백 (추가 예정)**
+- MySQL에서 ROWNUM 사용
+- row_number()
 
 <br>
 
