@@ -173,9 +173,61 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
 
 <br><br>
 
-### **1차 피드백 (추가 예정)**
+### **1차 피드백 (완료)**
 - MySQL에서 ROWNUM 사용
-- row_number()
+
+MySQL에는 Oracle의 번호를 매겨주는 ROWNUM함수가 존재하지 않아서 세션 변수로 ROWNUM을 구해야 한다.
+
+총 3가지의 방법이 존재한다.
+1. SET구문을 사용하여 초기화(쿼리문과 분리)
+2. **FROM절에서 초기화(SET구문 사용X)**
+3. WHERE절에서 초기화(SET구문 사용X)
+
+모든 결과값은 아래 테이블을 기반으로 한다
+
+![table](https://user-images.githubusercontent.com/64416833/142760118-a93fa7c3-5196-4c3e-b56e-2b90580945e5.jpg)
+
+
+<br>
+
+```sql
+-- 1. SET구문을 사용하여 초기화
+SET @ROWNUM:=0;
+
+SELECT @ROWNUM:=@ROWNUM+1 tb.*
+FROM TEST_BOARD tb;
+```
+![table_img](https://user-images.githubusercontent.com/64416833/142760787-3fc6ab61-b941-42f2-affa-dec4d44ca0c8.jpg)
+
+
+```sql
+-- 2. FROM절에서 초기화
+SELECT @ROWNUM:=@ROWNUM+1 ROWNUM, tb.*
+FROM TEST_BOARD tb, (SELECT @ROWNUM:=0) R
+ORDER BY BNO DESC;
+```
+![table_img2](https://user-images.githubusercontent.com/64416833/142760785-c801b8dc-f216-401e-9c96-70d64cfd348a.jpg)
+
+```sql
+-- 2번 응용
+-- ROWNUM을 10까지만 출력
+SELECT * 
+FROM (SELECT @ROWNUM:=@ROWNUM+1 ROWNUM, tb.*
+	FROM TEST_BOARD tb, (SELECT @ROWNUM := 0) R
+	ORDER BY BNO DESC) TMP
+WHERE ROWNUM <= 10;
+```
+![table_img3](https://user-images.githubusercontent.com/64416833/142760786-861bfeb3-8b2f-4774-86dc-0249ac1f963d.jpg)
+
+
+```sql
+-- 3. WHERE절에서 초기화
+SELECT @ROWNUM:=@ROWNUM+1 ROWNUM, tb.*
+FROM TEST_BOARD tb
+WHERE (@ROWNUM:=0)=0
+ORDER BY BNO DESC;
+```
+![table_img2](https://user-images.githubusercontent.com/64416833/142760785-c801b8dc-f216-401e-9c96-70d64cfd348a.jpg)
 
 <br>
 
@@ -184,4 +236,81 @@ SQL 쿼리문을 작성할때 사용되는 WHERE, GROUP BY, ORDER BY 절과 같�
 <br>
 
 ## 02차 - 21.11.23(화)
+
+진행순서
+1. 컬렉션 프레임워크<br>
+1-1) 정의
+
+2. 컬렉션 프레임워크의 인터페이스<br>
+2-1) 컬렉션 프레임워크의 주요 메서드<br>
+2-2) List<br>
+2-3) Set<br>
+2-4) Map
+
+3. 컬렉션 클래스<br>
+3-1) List - ArrayList, LinkedList<br>
+      3-1-1) ArrayList 문자열과 객체 삽입 시<br>
+      3-1-2) Array와 ArrayList<br>
+      3-2) Set - HashSet, TreeSet<br>
+      3-3) Map - HashMap<br>
+
+```java
+// 3-1-1
+list1.add(0,"1");
+print(list1); 
+// list1:[1, 0, 1, 2, 3, 4, 5]
+
+// indexOf()는 객체의 위치(인덱스)를 알려준다
+// 위 add(0,"1")로 데이터를 추가한 건 문자열이라 indexOf("1")에서 0이 출력이 되고
+// indexOf(1)에서 1은 객체(Integer)를 찾기 때문에 2(인덱스)를 출력하게 된다
+System.out.println("index=" + list1.indexOf("1")); // 0
+System.out.println("index=" + list1.indexOf("2")); // -1 -> 찾지 못함(문자열 "2"가 없음.)
+System.out.println("index=" + list1.indexOf(1));   // 2
+```
+
+      
+
+---
+<br>
+
+## 주제 : List Set Map
+
+- 컬렉션 프레임워크(Collection Framework) <br>
+      - 객체나 데이터를 효율적으로 다루기 위한(추가, 삭제, 검색, 저장) 클래스들의 집합
+
+
+컬렉션 프레임워크의 주요 **인터페이스**
+- 인터페이스를 구분하는 건 "순서", "데이터 중복여부"
+
+1. List : 순서O, 중복O
+2. Set  : 순서X, 중복X
+3. Map  : 순서X, 중복(키X, 값O)
+
+
+컬렉션 **클래스**
+- 컬렉션 프레임워크에 속하는 인터페이스를 구현한 클래스
+- ArrayList, LinkedList, HashSet, HashMap, Stack, Queue, ...
+
+
+![collections](https://user-images.githubusercontent.com/64416833/142761042-1796918b-4469-4d80-8773-21d3a6274fc6.jpg)
+
+
+Collection인터페이스의 주요 메서드
+![collections_method](https://user-images.githubusercontent.com/64416833/142761433-e9ef6c4d-6e2c-4f9c-8f25-02f0e735e3a0.jpg)
+
+<br>
+
+List인터페이스를 구현한 대표적인 클래스는 `ArrayList`이다
+
+ArrayList의 특징은 다음과 같다
+1. List인터페이스를 구현하므로 저장순서가 유지되고 중복을 허용한다
+2. resizable-array
+
+<br>
+
+---
+
+<br>
+
+## 03차 - 21.11.30(화)
 ## 주제 : 
