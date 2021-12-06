@@ -496,21 +496,20 @@ map.put(3,"포도");
 
 ### 진행 순서
 
-    03차 -- 래퍼클래스와 오토박싱, 언박싱 그리고 HashSet
-            |-- 래퍼클래스와 오토박싱, 언박싱
-            |-- HashSet 동작원리
-                |-- HashSet의 출력이 고정된 것 같아
-                    |-- HashSet은 HashMap으로 동작한다.
-                    |-- HashMap과 HashSet은 데이터 추가 전에 equals()와 hashCode()가 실행된다.
-                    |-- 중간 정리 - 1
-                    |-- 위 방법도 아니라면 데이터는 어떻게 저장되는가 - 1
-                    |-- 위 방법도 아니라면 데이터는 어떻게 저장되는가 - 2
-                    |-- 중간 정리 - 2
-                    |-- 지금까지 과정 중 궁금한 점
-                    |-- 최종 정리 - 3
-                    |-- Example 1) 데이터가 12개 이하
-                    |-- Example 2) 데이터가 13개 이상
-                |-- equals(), hashCode()
+    래퍼클래스와 오토박싱, 언박싱 그리고 HashSet
+        |-- 래퍼클래스와 오토박싱, 언박싱
+        |-- HashSet 동작원리
+            |-- HashSet의 출력이 고정된 것 같아
+                |-- 중간 정리 - 1
+                |-- 그렇다면 데이터는 어떻게 저장되는가 - 1
+                |-- 그렇다면 데이터는 어떻게 저장되는가 - 2
+                |-- 지금까지 과정 중 궁금한 점
+                |-- 그렇다면 데이터는 어떻게 저장되는가 - 3
+                |-- 중간 정리 - 2
+                |-- Example 1) 데이터가 12개 이하
+                |-- Example 2) 데이터가 13개 이상
+                |-- 최종 정리
+            |-- equals(), hashCode()
 
 
 <br>
@@ -635,13 +634,13 @@ map.put(3,"포도");
 
     <br>
 
-    #### 03-2-1) HashSet은 HashMap으로 동작한다.
+    ### HashSet은 HashMap으로 동작한다.
 
-    HashMap은 `Key`와 `Value`의 쌍으로 값이 저장되는 데이터 구조로 `저장 순서와 출력 순서를 보장하지 않는 데이터 구조`이다.
+    `Map`은 **Key와 Value의 쌍으로 값이 저장되는 형태**이며 **저장 순서와 출력 순서를 보장하지 않는 데이터 구조**이다.
 
     <br>
 
-    HashSet은 HashMap으로 동작하는데 아래 코드는 `HashSet.class`의 일부이다.
+    `HashSet`은 `HashMap`으로 동작하는데 아래 코드는 `HashSet.class`의 일부이다.
 
     ```java
     public class HashSet<E> {
@@ -661,18 +660,20 @@ map.put(3,"포도");
         }
     }        
     ```    
-    위 코드를 통해 HashSet은 HashMap으로 구현되어 있고, 값을 저장할 때 Key Object에 e의 값이 들어가면서 Key Object에 저장될 객체가 저장되고, Value Object에는 dummy data가 저장되게 된다.
 
-    즉, `HashMap의 Key는 중복된 값이 들어가지 못한다`과 `HashSet에 중복된 값이 들어가지 못하는 특징`의 공통점이 있기 때문에 `HashSet에 중복된 값이 저장되지 못한다.`는 것을 알 수 있습니다.
+
+    위 코드를 통해 `HashSet`은 `HashMap`으로 구현되어 있고, 값을 저장할 때 `Key Object`에 `e`의 값이 들어가면서 `Key Object`에 저장할 객체가 저장되고, `Value Object`에는 `dummy data`가 저장되게 된다.
+
+    이것이 가능한 이유는 `Map의 Key는 중복된 값이 들어가지 못한다.`와  `Set에 중복된 값이 들어가지 못한다.`라는 공통된 특징을 가지기때문에 `HashSet은 HashMap으로 동작되지만 중복된 값이 저장되지 않는다.`라는 것을 증명할 수 있습니다.
     
     <br><br>
 
-    #### 03-2-2) HashMap과 HashSet은 데이터 추가 전에 equals()와 hashCode()가 실행된다.
-    `자바에는 객체를 식별할 수 있는` hashCode메서드가 존재하는데 `hashCode메서드`는 기본적으로 `객체의 주소를 이용해서 객체의 고유한 값을 정수로 만들어 반환하는 메서드`이다.
+    ### HashMap과 HashSet은 데이터 추가 전에 equals()와 hashCode()가 실행된다.
+    자바에는 객체를 식별할 수 있는 `hashCode`메서드가 존재하는데 `hashCode`메서드는 기본적으로 `객체의 주소를 이용해서 객체의 고유한 값을 정수로 만들어 반환하는 메서드`이다.
 
     <br>
 
-    Q > 그렇다면 HashMap과 HashSet은 데이터 추가시에 hashCode(equals는 내용상 생략)가 사용되는데 hashCode메서드는 객체의 고유한 값을 정수로 만들어 반환하는 메서드니까 hashCode가 작은 순서대로 저장되는 것인가? <br>
+    Q > 그렇다면 `HashMap`과 `HashSet`은 데이터 추가시에 `hashCode`와 `equals`가 사용되는데 `hashCode`메서드는 **객체의 고유한 값을 정수로 만들어 반환하는 메서드**니까 데이터가 저장될 때 hashCode가 작은 순서대로 저장되는 것인가? <br>
     A > NO. 
 
     ```java
@@ -710,30 +711,28 @@ map.put(3,"포도");
     <br><br>
 
     ### 중간 정리 - 1
-    지금까지 정리를 해보자면,
-    1. HashSet은 HashMap으로 구현되어 있고, HashSet에 데이터가 저장될 때는 HashMap의 Key에 저장이 된다.
-    2. HashSet과 HashMap은 데이터 추가될 때 equals()와 hashCode()가 사용된다.
+    지금까지의 내용들을 정리해보자면,
+    1. HashSet은 HashMap으로 구현되어 있고, HashSet에 데이터가 저장될 때는 HashMap의 Key에 저장된다.
+    2. HashSet과 HashMap은 데이터 추가 전에 equals()와 hashCode()가 실행된다.
     3. HashSet과 HashMap은 데이터 추가 시에 hashCode()가 실행되지만 hashCode값이 작은 순으로 데이터가 저장되는 것은 아니다.
 
     <br><br>
 
 
-    #### 03-2-3) 위 방법도 아니라면 데이터는 어떻게 저장되는가 - 1
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 1
+    - `HashMap`과 `HashSet`은 **데이터 접근의 시간복잡도가** `O(1)` **인 자료구조이다.** <br>
+    - `HashMap`과 `HashSet`은 **데이터를 저장할 때 배열을 사용한다.**<br>
 
     <br>
 
-    `HashMap`과 `HashSet`은 `데이터 접근에 시간복잡도 O(1)을 보장하는 자료구조`이다. <br>
-    그리고, O(1)을 보장하는 자료구조로 `INDEX를 확실히 알고 있는 배열`이 있다.
+    `HashMap`과 `HashSet`을 기본적으로 생성하게 되면 **'디폴트 초기 용량(=배열의 크기라고 생각)'이 16으로 지정**된다. <br>
+    이말은 즉, 16개의 데이터가 들어갈 수 있는 배열이 생성된다는 것을 의미한다. <br>
+
+    \*\*이와 관련된 내용들을 찾아보다보면 `initial capacity`를 `'버킷의 크기'`라고 불리는데 `버킷`과 `배열`은 같은 말이다.** 
+
+    <br>
     
-    HashMap과 HashSet의 데이터 저장으로 `배열`이 사용됩니다.<br>
-
-    HashMap과 HashSet을 기본적으로 생성하게 되면 '디폴트 버킷 사이즈(=배열의 크기라고 생각)'가 16으로 지정된다. 이말은 즉, 16개의 Node<K, V>가 들어갈 수 있는 배열이 생성된다는 것을 의미한다. <br>
-
-    <br>
-    
-    아래 두 내용은 Java 8 Document에 HashMap과 HashSet의 기본 생성자에 대한 설명이다.
-
-    <br>
+    위 내용에 대한 부분은 **Java 8 Document**에 `HashMap`과 `HashSet`의 기본 생성자를 보면 확인할 수 있습니다.
 
     `public HashMap()`
 
@@ -743,29 +742,44 @@ map.put(3,"포도");
 
     `public HashSet()`
     
-        Constructs a new, empty set; the backing HashMap instance has default initial capacity (16) and load factor (0.75).` >> java 8 document - HashSet Constructor <br>
+        Constructs a new, empty set; the backing HashMap instance has default initial capacity (16) and load factor (0.75).
 
         파파고 번역 :: 비어 있는 새 집합을 구성합니다. 백업 해시맵 인스턴스는 기본 초기 용량(16)과 로드 팩터(0.75)를 갖습니다.
-    
-
     위 내용 중 `default initial capacity (16)`에 대한 내용이 위에서 말한 디폴트 버킷 사이즈. 즉, 배열의 크기이다. 
 
-    <br><br>
-
-    ### 그러나,, 데이터 저장에 한 가지 작업이 추가로 더 필요하다.
-
-    <br><br>
-
-    #### 03-2-4) 위 방법도 아니라면 데이터는 어떻게 저장되는가 - 2
     <br>
 
-    `바로, hashCode를 배열의 크기(버킷 사이즈)로 나눈 나머지를 배열의 index로 사용한다.`<br>
+    HashMap 생성자
+    ![image](https://user-images.githubusercontent.com/64416833/144833395-a772b4d9-3c18-488a-869e-689629f3fbf3.png)
+
+    <br>
     
-    위 Document로 HashMap과 HashSet이 생성될 때 생성자로 인해 디폴트 버킷 사이즈(배열의 크기)가 16인걸 알 수 있었고, HashSet의 데이터(즉, HashMap의 Key)의 hashCode값을 16으로 나눈 나머지는 0 ~ 15 중 하나가 될 것이다.
+    HashSet 생성자
+    ![hashset2](https://user-images.githubusercontent.com/64416833/144828014-e80cb014-9523-41b1-8181-8753a1275e11.jpg)
 
     <br>
 
-    위에서 hashCode를 확인한 코드에 디폴트 버킷 사이즈(16)만큼 나눈 결과는 다음과 같다.
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 2
+    그러나,, `HashSet`과 `HashMap`은 데이터를 저장시 한 가지 작업이 추가로 더 필요하다.
+    <br>
+
+    그 작업은 `hashCode를 배열의 크기로 나눈 나머지를 배열의 index로 사용한다.`<br><br>
+
+    
+    `key > 11, hashCode > 1568` <br>
+    위 내용은 위쪽에서 예시코드의 결과 중 일부이다. 이 코드의 결과로 예시를 든다면 다음과 같을 것이다.
+
+    1. 객체에 어떠한 조건도 주지않았을 경우 `배열의 크기는 16`이 된다.  
+    2. 객체의 `hashCode값이 1568`이다.
+    3. `'hashCode % 배열의 크기'`를 한 결과값이 `배열의 INDEX`이고 해당 인덱스에 객체가 저장된다.
+    ( 1568 % 16 == 0. 즉, 0번째 배열에 해당 객체를 저장 )
+    <br>
+
+    이를 통해 `HashSet` 또는 `HashMap`에 조건을 주지 않았을 경우 `hashCode % 16`한 결과값으로 `배열의 INDEX에 저장`하기 때문에 저장되는 값이 인덱스 0~15 중 하나에 저장이 될 것이다.
+
+    <br>
+
+    위에서 `hashCode`를 확인한 예제 코드에 배열의 크기(16)만큼 나눈 결과는 다음과 같다.
     ```java
     import java.util.HashSet;
 
@@ -800,38 +814,31 @@ map.put(3,"포도");
     key > 	10	 | hashCode > 	1567	 | hashCode % 16 > 15
 
     ```
-    위 결과에서 `hashCode % 디폴트 버킷 사이즈(16)`의 결과가 배열의 INDEX를 나타내고 해당 INDEX에 Key값이 저장되어 있음을 의미한다.
+    즉, 이 결과를 통해 `hashCode % 배열의 크기(16)`의 결과가 배열의 INDEX를 나타내고 `해당 INDEX에 입력된 객체가 저장되어 있음을 의미`한다.
 
     <br><br>
 
-    ### 중간 정리 - 2
-    지금까지 정리를 해보자면,
-    1. HashSet은 HashMap으로 구현되어 있고, HashSet에 데이터가 저장될 때는 HashMap의 Key에 저장이 된다.
-    2. HashSet과 HashMap은 데이터 추가될 때 equals()와 hashCode()가 사용된다.
-    3. HashSet과 HashMap은 데이터 추가 시에 hashCode()가 실행되지만 hashCode값이 작은 순으로 데이터가 저장되는 것은 아니다.
-    4. HashSet과 HashMap은 데이터 접근의 시간복잡도가 O(1)인데, 이를 보장하기 위해 배열을 사용한다.
-    5. HashSet과 HashMap를 생성하면 디폴트 버킷 사이즈(=배열의 크기)가 16이다. 그리고 이 값으로 `hashCode % 디폴트 버킷 사이즈(16)`를 한 INDEX의 위치에 HashSet, HashMap의 데이터가 저장되게 된다.
+    ### 지금까지 과정 중 궁금한 점
+    1. HashSet과 HashMap의 특징인 저장 순서와 출력 순서가 보장되지 않는다 라고 알고있는데 지금까지의 과정만 봤을 땐 틀린 것인가?
+    2. 어떠한 조건도 주지 않게 되면 배열의 크기(initial capacity)가 16이라면 만약.. 데이터가 16개보다 많이 들어가게 될 경우에는 어떻게 되는가?
+
+    <br>
+
+    Q1 > HashSet과 HashMap은 저장 순서와 출력 순서가 보장되는데 틀린 것인가? <br>
+    A1 > NO.
+
+    Q2 > 만약.. 데이터가 16개보다 많이 들어가게 될 경우에는 어떻게 되는가? <br>
+    A2 > '로드 팩터(load factor)'를 사용한다.
 
     <br><br>
 
-    #### 03-2-5) 지금까지 과정 중 궁금한 점
-    1. 지금까지의 이유라면 HashSet과 HashMap은 저장 순서와 출력 순서가 보장되는데 틀린 것인가?
-    2. 또한, 디폴트 버킷 사이즈가 배열의 크기이고 기본 값이 16이라면 만약, 데이터가 16개보다 많이 들어가게 될 경우에는 어떻게 되는가?
-
-    <br>
-
-    Q > 1번. HashSet과 HashMap은 저장 순서와 출력 순서가 보장되는데 틀린 것인가? <br>
-    A > NO.
-
-    <br>
-
-    HashMap의 또 중요한 요소가 존재한다. 
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 3
+    `HashMap`에는 배열의 크기를 나타내는 `initial capacity`말고도 중요한 요소가 존재한다. 
     
-    ### 바로 **로드 팩터** 이다. <br>
-
-    위 document의 HashMap의 기본 생성자 코드에 대한 부분을 보면 다음과 같다.
-
+    ### 그것은 바로.,., **로드 팩터(load factor)** 이다. <br>
     <br>
+
+    위에서 설명한 document의 `HashMap의 기본 생성자` 코드는 다음과 같았다.
 
     `public HashMap()`
 
@@ -839,46 +846,35 @@ map.put(3,"포도");
 
         파파고 번역 :: 기본 초기 용량(16)과 기본 로드 팩터(0.75)를 사용하여 빈 해시맵을 구성합니다.
 
-    <br>
-
-    HashSet도 동일하게 생성 시 기본 로드 팩터를 0.75로 설정된다.
+    `HashSet`은 `HashMap`으로 동작하기 때문에 HashSet 또한 별도의 조건을 주지 않게되면 `'기본 로드 팩터를 0.75로 설정'`한다.
 
     <br>
 
-    위 `default load factor`는 배열 공간(=버킷 사이즈)이 75% 차게 되면 추가적으로 데이터를 저장할 공간을 확보한다는 것을 의미한다.<br>
-    만약, 배열 공간(=버킷 사이즈)이 75%(=로드 팩터)가 차면 HashMap은 현재 배열의 크기(버킷 개수)의 2배만큼 용량을 늘리게 된다.
+    위 `default load factor`는 `배열 공간이 75%(를 초과)차게 되면 추가적으로 데이터를 저장할 공간을 확보한다는 것을 의미`한다.<br>
+    만약, 배열의 크기가 로드 팩터(기본값 75%)만큼 차게 되면 HashMap은 `현재 배열의 크기의 2배만큼 용량을 늘리게 된다.`
 
     <br>
 
-    즉, 이러한 이유로 HashMap과 HashSet의 순서가 보장이 되지 않게 됩니다.
+    즉, 이러한 이유로 `HashMap과 HashSet의 순서가 보장이 되지 않게 된다.`
 
     <br><br>
 
-    #### 03-2-6) 최종
-
-    <br>
-
-    ### 최종 정리 - 3
-    지금까지 정리를 해보자면,
-    1. HashSet은 HashMap으로 구현되어 있고, HashSet에 데이터가 저장될 때는 HashMap의 Key에 저장이 된다.
-    2. HashSet과 HashMap은 데이터 추가될 때 equals()와 hashCode()가 사용된다.
-    3. HashSet과 HashMap은 데이터 추가 시에 hashCode()가 실행되지만 hashCode값이 작은 순으로 데이터가 저장되는 것은 아니다.
-    4. HashSet과 HashMap은 데이터 접근의 시간복잡도가 O(1)인데, 이를 보장하기 위해 배열을 사용한다.
-    5. HashSet과 HashMap를 생성하면 디폴트 버킷 사이즈(=배열의 크기)이 16이다. 그리고 이 값으로 `hashCode % 디폴트 버킷 사이즈(16)`를 한 INDEX의 위치에 HashSet, HashMap의 데이터가 저장되게 된다.
-    6. HashMap의 `'load factory'`의 요소로 배열 공간(=버킷 사이즈)를 늘리게 된다. 버킷 사이즈를 늘리게 되는 시점은 `default initial capacity * load factory(defualt => 16 * 0.75)`이다.
-    7. 위 공식을 기반으로 인자값없이 HashMap이나 HashSet을 생성하게 되면 데이터가 12(16*0.75)개가 넘어가는 순간 배열의 크기가 32(16 * 2)개가 된다.
-
+    ### 중간 정리 - 2
+    지금까지의 내용들을 정리해보자면,
+    1. HashSet은 HashMap으로 구현되어 있고, HashSet에 데이터가 저장될 때는 HashMap의 Key에 저장된다.
+    2. HashSet과 HashMap은 데이터 추가 전에 equals()와 hashCode()가 실행된다.
+    3. HashSet과 HashMap은 데이터 추가 시에 hashCode()가 실행되지만 hashCode값이 작은 순으로 데이터가 저장되는 것은 아니다. <br>
+    \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+    4. HashSet과 HashMap은 데이터 접근의 시간복잡도가 O(1)이고 데이터를 저장할 때 '배열'을 사용한다.
+    5. HashSet과 HashMap을 기본적으로 배열의 크기는 16이다. 또한, 이 값으로 hashCode % 배열의 크기(16)를 한 결과로 해당 위치의 INDEX에 데이터를 저장한다.
+    6. HashSet과 HashMap은 배열의 크기를 나타내는 요소인 initial capacity와 배열의 크기를 조절하는 요소인 'load factory'로 이루어진다. 배열의 크기를 조절하는 시점은 기본적으로 initial capacity * load factory(16 * 0.75 = 12)의 크기만큼 데이터가 찼을 때이다.
+    7. 정리하자면 HashMap이나 HashSet을 조건없이 생성하게 되면 데이터가 12(16*0.75)개가 넘어가는 순간 배열의 크기가 32(16 * 2)개가 된다.
 
     <br><br>
 
+    지금까지의 내용을 코드로 보면 다음과 같다. 
 
-    코드 예시는 아래와 같다.
-
-    아무런 설정없이 HashSet을 생성하면 배열의 크기는 16개가 생성되기 때문에 `16 % 16 == 0`이라 `Integer 16`의 값을 먼저 넣게 되었다. <br>만약 데이터가 12개가 넘어가게 되면 조건에 의해 배열의 공간이 32개가 되고 `16 % 32 == 16`이 되기 때문에 HashSet을 출력하게 되면 데이터의 제일 마지막으로 이동하게 될 것이다.
-
-    <br>
-
-    위 내용까지는 이해를 위해 `HashSet<String>`을 사용하였고 아래 내용부터는 가시적인 결과를 위해 `HashSet<Integer>`를 사용하였다.
+        위 내용까지는 이해를 위해 HashSet<String>을 사용하였고 아래 내용부터는 가시적인 결과를 위해 HashSet<Integer>를 사용하였다.
 
     <br>
 
@@ -976,9 +972,12 @@ map.put(3,"포도");
     key > 	16	 | hashCode > 	16	 | hashCode % 16 > 0
     ```
     
-    데이터의 개수가 13개가 되면서 `16 * 0.75`의 결과인 `12`를 넘기게 되면서 배열의 공간이 `16 * 2`의 결과인 `32`가 됨으로서 `16 % 32 == 16`이 되어 `16`이 제일 마지막으로 이동한 것을 확인할 수 있다.
+    데이터를 13개를 추가하게 되면 배열의 개수가 13이 되면서 `16 * 0.75`의 결과인 `12`를 넘기게 됨으로서 배열의 크기가 현재 크기에 2배가 증가하게 된다.<br>
+    그 결과로, 배열의 공간이 `16 * 2`의 결과인 `32`가 되고 `16 % 32 == 16`이 되어 `16`이 제일 마지막으로 이동한 것을 확인할 수 있다.
 
-    뿐만 아니라 아래와 같이 불규칙적으로 적은 데이터를 삽입했을 때 어느정도 정렬이 되는 이유가 이러한 이유 때문이다.
+    <br>
+
+    이러한 이유들로 아래와 같은 코드를 작성했을 때 Set과 Map의 특징과는 반대로 정렬이 되었던 것이 이러한 이유 때문이다.
     ```java
     import java.util.HashSet;
 
@@ -997,9 +996,85 @@ map.put(3,"포도");
     [0, 1, 2, 3]
     ```
 
+    <br>
+
+    ### 최종 정리
+    1. HashSet은 HashMap으로 구현되어 있고 데이터를 저장할 때 '배열을 사용'한다
+    2. 기본적으로 배열의 크기는 16으로 되어있고 배열의 크기는 로드팩터에 의해 결정된다. (기본값은 0.75)
+    3. HashSet 또는 HashMap이 가지는 데이터의 개수가 배열의 크기 * 로드팩터의 결과보다 크게 되면 배열의 크기를 2배 늘린다.
+
 <br>
 
 [참고자료] https://papimon.tistory.com/74
+
+<br>
+
+---
+
+<br>
+
+왜 hashCode의 결과값이 in)int -> out)int 그리고 in)String -> out)int인가?
+
+1. Integer - [java Doc.](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#hashCode--)
+
+![hashcode1](https://user-images.githubusercontent.com/64416833/144915350-904968a4-70b3-4f10-a49e-13763f5fc33d.jpg)
+
+객체의 hashCode의 반환값은 int형태로 반환
+
+<br>
+
+2. String - [tutorialspoint](https://www.tutorialspoint.com/java/java_string_hashcode.htm)
+### Description
+```
+The hash code for a String object is computed as −
+s[0]*31^(n - 1) + s[1]*31^(n - 2) + ... + s[n - 1]
+s[i]는 문자열의 i번째 문자, n은 문자열의 길이, ^는 지수
+```
+객체의 hashCode의 반환값은 int형태로 반환
+
+<br>
+
+```java
+import java.util.HashSet;
+
+public class HashSetExample11 {
+
+	public static void main(String[] args) {
+		HashSet<Object> hashSet = new HashSet<>();
+		
+		hashSet.add("1");		hashSet.add("3");
+		hashSet.add("0");		hashSet.add("2");
+		
+		hashSet.add(100); 		hashSet.add(200);
+		
+		for(Object str : hashSet)
+			System.out.println("str > \t" + str 
+							+ "\t str.hashCode() > " + str.hashCode() 
+							);
+		
+		System.out.println("--------");
+		
+		String tStr1 = "1"; String tStr2 = "123";
+		System.out.println("tStr1 > " + tStr1 + "\t tStr1.hashCode() > " + tStr1.hashCode());
+		System.out.println("tStr2 > " + tStr2 + "\t tStr2.hashCode() > " + tStr2.hashCode());
+	}
+}
+```
+```
+str > 	0	 str.hashCode() > 48
+str > 	1	 str.hashCode() > 49
+str > 	2	 str.hashCode() > 50
+str > 	3	 str.hashCode() > 51
+str > 	100	 str.hashCode() > 100
+str > 	200	 str.hashCode() > 200
+--------
+tStr1 > 1	 tStr1.hashCode() > 49
+tStr2 > 123	 tStr2.hashCode() > 48690
+```
+
+<br>
+
+---
 
 <br>
 
