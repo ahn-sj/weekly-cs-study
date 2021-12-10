@@ -1082,8 +1082,213 @@ tStr2 > 123	 tStr2.hashCode() > 48690
 
 <br>
 
+`equals()`와 `==`<br>
+`equals()`와 `==`는 기본적으로 양쪽에 있는 내용을 비교한 다음 boolean으로 반환하는 공통점을 가진다.
+
+차이점은 다음과 같다.
+1. 형태의 차이
+    - equals()는 메서드로 객체끼리 내용을 비교할 수 있도록 한다.
+    - ==는 비교를 위한 연산자이다.
+
+2. 주소값 비교와 내용 비교
+    - `equals()`는 비교하고자 하는 두 대상의 **내용 자체를 비교**한다.
+    - `==`연산자는 비교하고자 하는 두 대상의 **주소값을 비교**한다.
+
+Example #1
+
+```jsx
+public class chap09_1 {
+	public static void main(String[] args) {
+		Num n1 = new Num(10);
+		Num n2 = new Num(10);
+		
+		System.out.println(n1.equals(n2));
+	}
+}
+
+class Num {
+	private int number;
+
+	public Num() {
+		this(100);
+	}
+	
+	public Num(int number) {
+		this.number = number;
+	}
+}
+// false
+```
+
+위 예제의 경우 두 객체가 동일한 내용을 가지고 있음에도 `false` 의 결과를 반환한다.
+
+왜냐하면 equals()의 메서드를 보게되면 다음과 같다.
+
+```jsx
+public boolean equals(Object obj) {
+	return (this == obj);
+}
+```
+
+`equals()`를 오버라이딩 해주지 않을 경우 `this`와 `obj`의 주소를 비교하기 때문에 위 코드의 결과가 `false`가 나오게 된다.
+
+만약 서로 다른 객체라도 값이 같으면 true를 반환하고 싶다면 아래와 같은 코드로 변경해야 한다.
+
+```jsx
+public boolean equals(Object obj) {
+	Value v = (Value) obj;
+	return (this.value == v.value);
+}
+```
+
+그러나 오류가 발생할 수도 있으니 아래와 같은 과정을 수행해야 한다.
+
+1. 입력받은 obj의 값을 클래스의 멤버변수(인스턴스 변수)로 비교한다(형변환)
+2. 참조변수의 형변환전에는 반드시 instanceof로 확인해야 한다.
+
+왜냐하면, obj에 어떠한 데이터가 들어올 지 모르기 때문이다.
+
+1. `obj -> Value`변환할 때 `Value객체`가 아니면 `false` 를 반환하도록한다 ㅡ `if(!(obj instanceof Value)) return false;`
+
+```jsx
+public boolean equals(Object obj) {
+	if(!(obj instanceof Value)) return false;
+
+	Value v = (Value) obj;
+	return (this.value == v.value);
+}
+```
+
+그러나 우리가 그동안 String에서는 new로 생성해도 동일한 값을 가질 경우 true를 반환한 이유는 무엇인가?
+
+```jsx
+public class equalsTest {
+	public static void main(String[] args) {
+		Stud s1 = new Stud();
+		Stud s2 = new Stud();
+		// Stud equals > false
+		System.out.println("Stud equals > " + s1.equals(s2));
+		
+		String str1 = new String("123");
+		String str2 = new String("123");
+		// String equals > true
+		System.out.println("String equals > " + str1.equals(str2));
+	}
+}
+
+class Stud {
+	private String name;
+	
+	public Stud() { this("papago");	}
+	public Stud(String name) { this.name = name; }
+}
+```
+
+위 질문에 대한 대답은.. String클래스는 equals를 오버라이딩 한다.
+
+String클래스에 equals메서드의 코드는 아래와 같다.
+```java
+public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (anObject instanceof String) {
+            String aString = (String)anObject;
+            if (!COMPACT_STRINGS || this.coder == aString.coder) {
+                return StringLatin1.equals(value, aString.value);
+            }
+        }
+        return false;
+    }
+```
+
+정리하자면
+
+1. String클래스는 eqauls를 오버라이딩하기 때문에 new로 생성해도 s1.equals(s2)를 수행해도 true의 값이 나온다.
+2. 사용자가 정의하는 클래스에서의 eqauls는 기본적으로 Object의 equals를 사용하게 된다. 그러므로 new를 생성하게 되기 때문에 equals의 결과값이 올바르게 나오지 않는다. 이러한 이유로 객체간 값이 같은지 비교를 하려면 eqauls를 오버라이딩 해주어야 원하는 결과값을 반환하게 된다.
+
+Q. equals를 오버라이딩 해주면 hashCode도 오버라이딩 해주어야 한다는데 맞는가?
+
+A. 무조건. 이라고는 대답하지 못하겠지만.. HashSet과 HashMap은 데이터 추가전에 equals와 hashCode로 동일한 값이 있는지 비교하게 된다. 이렇게 hash함수를 사용할 때에는 hashCode 또한 오버라이딩 해주어야 하지만 단순히 객체와 객체간의 동일한 값을 비교하기 위해 equals를 해주어야 한다면 hashCode는 해주지 않아도 된다. 
+
+단, 원래라면 equals를 오버라이딩 하면 hashCode도 오버라이딩 해주는 것이 원칙이다.
+왜냐하면 논리적으로 두 인스턴스가 같다면 같은 해시코드를 반환해야하기 때문이다.
+
+추가로 ==같은 경우에 기본 자료형에서는 값을 비교하고 참조 자료형에서는 주소를 비교한다.
 
 
+`hashCode()` <br>
+`hashCode() `
+- 객체의 해시코드(hash code)를 반환하는 메서드
+- 객체의 주소를 정수로 변환해서 반환
+- equals()를 오버라이딩하면 hashCode()도 오버라이딩 해야 한다.
+- **equals()의 결과가 true인 두 객체의 해시코드는 같아야 한다 ★**
+
+즉, 이러한 이유로 HashSet과 HashMap을 이용할 때는 equals와 hashCode를 오버라이딩 해주는 것이 바람직하다.
+```java
+@Override
+public boolean equals(Object obj) {
+    if(!(obj instanceof Person)) return false;
+            
+    Person p = (Person)obj;
+    
+    return this.pno == p.pno && this.name.equals(p.name);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(pno, name);
+}
+```
+
+equals()는 obj와 클래스의 인스턴스 변수를 비교하도록 구현 (기본형은 ==으로 비교하고 그 외 나머지 타입은 equals()로 비교)
+
+ex) `this.age == p.age && this.name.equals(p.name)`
+
+hashCode()는 Objects클래스의 hash()함수로 구현
+
+<br>
+
+해싱(hashing)
+
+해시함수(hash function)로 해시테이블(hash table)에 데이터를 저장, 검색
+
+아래 이미지에 해시함수는 `Objects.hash()`를 사용하면 된다.
+
+![hashfunc](https://user-images.githubusercontent.com/64416833/145587632-f5fed027-5e20-414e-b6df-4efd753af684.jpg)
+
+1번 : 키로 해시함수를 호출해서 해시코드를 얻게 되는데 해시코드는 배열의 인덱스로 위 이미지에서 7이 배열의 인덱스에 속한다
+
+2번 : 해시코드(해시함수의 반환값, 즉 배열의 인덱스)에 대응하는 링크드 리스트를 배열에서 찾는다
+
+3번 : 링크드리스트에서 키와 일치하는 데이터를 찾는다
+
+해시함수는 같은 키에 대해 항상 같은 해시코드를 반환해야 한다.
+
+서로 다른 키일지라도 같은 값의 해시코드를 반환할 수도 있다.
+
+ㄴ 위 사진에서 75xxxx...와 72xxxx...는 같은 해시코드를 가지지만 키값은 다르기 때문에 데이터를 찾는데에 문제는 없다
+
+우리의 예시로 들면
+
+HashSet은 HashMap으로 구현되어 있고, HashMap의 Key Object에 객체가 저장되고 Value Object에는 dummy Data가 들어간다.
+
+그리고 우리가 지금까지 알아본 hashCode()함수를 사용하고 그 나온 결과에 배열의 크기만큼 나눈값이 해시코드이다.
+
+해시코드의 인덱스에 데이터가 저장되기 때문에 인덱스에 여러개의 데이터가 저장될 수 있다.
+
+ 아래 이미지는 해시 테이블이다.
+
+해시테이블은 linked List와 Array가 조합된 형태이다
+
+![hashtable](https://user-images.githubusercontent.com/64416833/145587563-f4643114-056d-48c5-aa12-1e144818731b.jpg)
+
+
+https://velog.io/@kekim20/JAVA-hashCode%EB%A9%94%EC%84%9C%EB%93%9C-%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9
+
+https://velog.io/@kekim20/JAVA-equals%EB%A9%94%EC%84%9C%EB%93%9C-Object-String-Integer%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9
+
+https://tecoble.techcourse.co.kr/post/2020-07-29-equals-and-hashCode/
 
 <br>
 
