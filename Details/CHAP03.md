@@ -18,7 +18,7 @@
                 |-- Example 1) 데이터가 12개 이하
                 |-- Example 2) 데이터가 13개 이상
                 |-- 최종 정리
-            |-- equals(), hashCode()
+            |-- equals(), hashCode() 오버라이딩
 
 
 <br>
@@ -26,14 +26,14 @@
 ## 03-1) 래퍼클래스와 오토박싱, 언박싱
 
 - 자바의 자료형
-    - 기본 타입(primitive type)
-        - int, short, long, float, double, char, boolean
-    - 참조 타입(reference type)
-        - Array, String, class, ...
+    - 기본 타입(`primitive type`)
+        - `int, short, long, float, double, char, boolean`
+    - 참조 타입(`reference type`)
+        - `Array, String, class, ...`
 
 <br>
 
-- 래퍼 클래스(Wrapper class)
+- 래퍼 클래스(`Wrapper class`)
     - 자바의 기본 타입을 객체로 다루기 위해 사용하는 클래스들
 
     <br>
@@ -47,12 +47,12 @@
 <br>
 
 - 래퍼클래스를 사용하는 이유는??
-    1. 래퍼 클래스는 기본 타입을 Object로 변환할 수 있다. 이를 통해, 지네릭스(Generics)에서도 사용할 수 있다. <br> `ex) HashMap<Integer, String> hashMap = new HashMap<>();`
+    1. 래퍼 클래스는 기본 타입을 `Object`로 변환할 수 있다. 이를 통해, 지네릭스(`Generics`)에서도 사용할 수 있다. <br> `ex) HashMap<Integer, String> hashMap = new HashMap<>();`
 
-    2. 래퍼 클래스는 java.lang패키지에 포함되어 있어서 패키지에 있는 메서드들을 사용할 수 있다.<br>
+    2. 래퍼 클래스는 `java.lang`패키지에 포함되어 있어서 패키지에 있는 메서드들을 사용할 수 있다.<br>
     `ex) .equals(), .toString(), getClass, ... `
 
-    3. ArrayList등과 같은 Collection 프레임워크의 데이터 구조는 기본 타입이 아닌 객체만 저장 가능하기 때문에 래퍼클래스를 이용해서 사용할 수 있다.<br> `ex) boxing`, `unboxing`
+    3. `ArrayList`등과 같은 `Collection` 프레임워크의 데이터 구조는 기본 타입이 아닌 객체만 저장 가능하기 때문에 래퍼클래스를 이용해서 사용할 수 있다.<br> `ex) boxing`, `unboxing`
 
     4. 메서드에 전달된 인수를 수정하려는 경우 Object가 필요하다 ~~(Call by reference와 유사)~~ <br>
     `ex) public void printObj(Object obj) { ... }`
@@ -78,7 +78,7 @@
         // Integer num = new Integer(17);
         Integer num = 17; // 오토박싱 
         
-        // UnBoxing
+        // AutoUnBoxing
         // int num = num.intValue();
         int n = num;        // 언박싱        
         ```    
@@ -93,14 +93,14 @@
 
     int i = 10; //기본타입
             
-    System.out.println("래퍼클래스 == 기본타입 : " + (num1 == i));              // true ★★
-    System.out.println("래퍼클래스 == 기본타입 : " + (num2 == i));              // true ★★
+    System.out.println("래퍼클래스 == 기본타입 : " + (num1 == i));              // true
+    System.out.println("래퍼클래스 == 기본타입 : " + (num2 == i));              // true
     System.out.println("래퍼클래스 == 래퍼클래스 : " + (num1 == num2));         // false
     System.out.println("래퍼클래스.equals(기본타입) : " + num1.equals(i));      // true
     System.out.println("래퍼클래스.equals(래퍼클래스) : " + num1.equals(num2)); // true
     ```
 
-    래퍼 클래스와 기본 자료형의 비교는 `== 연산`과 `equals연산` 모두 가능하다. <br>
+    래퍼 클래스와 기본 자료형간의 비교는 `== 연산`과 `equals연산` 모두 가능하다. <br>
     그 이유는 컴파일러가 자동으로 오토박싱과 언박싱을 해주기 때문입니다.
 
 <br><br>
@@ -145,7 +145,7 @@
 
     ### HashSet은 HashMap으로 동작한다.
 
-    `Map`은 **Key와 Value의 쌍으로 값이 저장되는 형태**이며 **저장 순서와 출력 순서를 보장하지 않는 데이터 구조**이다.
+    `Map`은 **Key와 Value의 쌍으로 값이 저장되는 형태**이며 **순서를 보장하지 않고 Key Object는 중복을 허용하지 않고 Value Object는 중복을 허용하는 데이터 구조**이다.
 
     <br>
 
@@ -163,15 +163,11 @@
         public boolean add(E e) {
             return map.put(e, PRESENT)==null;
         }
-
-        public boolean remove(Object o) {
-            return map.remove(o)==PRESENT;
-        }
     }        
     ```    
 
 
-    위 코드를 통해 `HashSet`은 `HashMap`으로 구현되어 있고, 값을 저장할 때 `Key Object`에 `e`의 값이 들어가면서 `Key Object`에 저장할 객체가 저장되고, `Value Object`에는 `dummy data`가 저장되게 된다.
+    위 코드를 통해 `HashSet`은 `HashMap`으로 구현되어 있고, 값을 저장할 때 `Key Object`에 `e`의 값이 들어가게 되면서 `Key Object`에 입력한 객체가 저장되고, `Value Object`에는 `dummy data`가 저장되게 된다.
 
     이것이 가능한 이유는 `Map의 Key는 중복된 값이 들어가지 못한다.`와  `Set에 중복된 값이 들어가지 못한다.`라는 공통된 특징을 가지기때문에 `HashSet은 HashMap으로 동작되지만 중복된 값이 저장되지 않는다.`라는 것을 증명할 수 있습니다.
     
@@ -228,7 +224,7 @@
     <br><br>
 
 
-    ### 그렇다면 데이터는 어떻게 저장되는가 - 1
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 1 / 3
     - `HashMap`과 `HashSet`은 **데이터 접근의 시간복잡도가** `O(1)` **인 자료구조이다.** <br>
     - `HashMap`과 `HashSet`은 **데이터를 저장할 때 배열을 사용한다.**<br>
 
@@ -268,7 +264,7 @@
 
     <br>
 
-    ### 그렇다면 데이터는 어떻게 저장되는가 - 2
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 2 / 3
     그러나,, `HashSet`과 `HashMap`은 데이터를 저장시 한 가지 작업이 추가로 더 필요하다.
     <br>
 
@@ -341,7 +337,7 @@
 
     <br><br>
 
-    ### 그렇다면 데이터는 어떻게 저장되는가 - 3
+    ### 그렇다면 데이터는 어떻게 저장되는가 - 3 / 3
     `HashMap`에는 배열의 크기를 나타내는 `initial capacity`말고도 중요한 요소가 존재한다. 
     
     ### 그것은 바로.,., **로드 팩터(load factor)** 이다. <br>
@@ -375,7 +371,7 @@
     3. HashSet과 HashMap은 데이터 추가 시에 hashCode()가 실행되지만 hashCode값이 작은 순으로 데이터가 저장되는 것은 아니다. <br>
     \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
     4. HashSet과 HashMap은 데이터 접근의 시간복잡도가 O(1)이고 데이터를 저장할 때 '배열'을 사용한다.
-    5. HashSet과 HashMap을 기본적으로 배열의 크기는 16이다. 또한, 이 값으로 hashCode % 배열의 크기(16)를 한 결과로 해당 위치의 INDEX에 데이터를 저장한다.
+    5. HashSet과 HashMap은 기본적으로 배열의 크기가 16이다. 또한, 이 값으로 hashCode % 배열의 크기(16)를 한 결과로 해당 배열의 INDEX에 데이터를 저장한다.
     6. HashSet과 HashMap은 배열의 크기를 나타내는 요소인 initial capacity와 배열의 크기를 조절하는 요소인 'load factory'로 이루어진다. 배열의 크기를 조절하는 시점은 기본적으로 initial capacity * load factory(16 * 0.75 = 12)의 크기만큼 데이터가 찼을 때이다.
     7. 정리하자면 HashMap이나 HashSet을 조건없이 생성하게 되면 데이터가 12(16*0.75)개가 넘어가는 순간 배열의 크기가 32(16 * 2)개가 된다.
 
@@ -522,90 +518,33 @@
 
 <br>
 
-왜 hashCode의 결과값이 in)int -> out)int 그리고 in)String -> out)int인가?
-
-1. Integer - [java Doc.](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#hashCode--)
-
-![hashcode1](https://user-images.githubusercontent.com/64416833/144915350-904968a4-70b3-4f10-a49e-13763f5fc33d.jpg)
-
-객체의 hashCode의 반환값은 int형태로 반환
-
-<br>
-
-2. String - [tutorialspoint](https://www.tutorialspoint.com/java/java_string_hashcode.htm)
-### Description
-```
-The hash code for a String object is computed as −
-s[0]*31^(n - 1) + s[1]*31^(n - 2) + ... + s[n - 1]
-s[i]는 문자열의 i번째 문자, n은 문자열의 길이, ^는 지수
-```
-객체의 hashCode의 반환값은 int형태로 반환
-
-<br>
-
-```java
-import java.util.HashSet;
-
-public class HashSetExample11 {
-
-	public static void main(String[] args) {
-		HashSet<Object> hashSet = new HashSet<>();
-		
-		hashSet.add("1");		hashSet.add("3");
-		hashSet.add("0");		hashSet.add("2");
-		
-		hashSet.add(100); 		hashSet.add(200);
-		
-		for(Object str : hashSet)
-			System.out.println("str > \t" + str 
-							+ "\t str.hashCode() > " + str.hashCode() 
-							);
-		
-		System.out.println("--------");
-		
-		String tStr1 = "1"; String tStr2 = "123";
-		System.out.println("tStr1 > " + tStr1 + "\t tStr1.hashCode() > " + tStr1.hashCode());
-		System.out.println("tStr2 > " + tStr2 + "\t tStr2.hashCode() > " + tStr2.hashCode());
-	}
-}
-```
-```
-str > 	0	 str.hashCode() > 48
-str > 	1	 str.hashCode() > 49
-str > 	2	 str.hashCode() > 50
-str > 	3	 str.hashCode() > 51
-str > 	100	 str.hashCode() > 100
-str > 	200	 str.hashCode() > 200
---------
-tStr1 > 1	 tStr1.hashCode() > 49
-tStr2 > 123	 tStr2.hashCode() > 48690
-```
-
-<br>
-
----
-
-<br>
 
 2. equals()와 hashCode() 오버라이딩
 
 <br>
 
-`equals()`와 `==`<br>
-`equals()`와 `==`는 기본적으로 양쪽에 있는 내용을 비교한 다음 boolean으로 반환하는 공통점을 가진다.
+### `equals()`와 `==`
 
-차이점은 다음과 같다.
+<br>
+
+#### - 공통점
+`equals()`와 `==`는 기본적으로 양쪽에 있는 대상을 비교한 다음 boolean으로 반환한다.
+
+<br>
+
+#### - 차이점
 1. 형태의 차이
-    - equals()는 메서드로 객체끼리 내용을 비교할 수 있도록 한다.
-    - ==는 비교를 위한 연산자이다.
-
+    - `equals()`는 객체끼리 내용을 비교할 수 있는 **메서드**이다.
+    - `==`는 비교를 위한 **연산자**이다.
 2. 주소값 비교와 내용 비교
     - `equals()`는 비교하고자 하는 두 대상의 **내용 자체를 비교**한다.
     - `==`연산자는 비교하고자 하는 두 대상의 **주소값을 비교**한다.
 
-Example #1
+<br>
 
-```jsx
+Example 1)
+
+```java
 public class chap09_1 {
 	public static void main(String[] args) {
 		Num n1 = new Num(10);
@@ -629,19 +568,24 @@ class Num {
 // false
 ```
 
-위 예제의 경우 두 객체가 동일한 내용을 가지고 있음에도 `false` 의 결과를 반환한다.
+위 예제의 경우 두 객체가 동일한 내용을 가지고 있음에도 `false` 의 결과를 반환한다.<br>
+위에서 말한 대로면 `equals`는 내용을 비교하기 때문에 `true`가 나와야 맞지만 `false`를 반환한다.
 
-왜냐하면 equals()의 메서드를 보게되면 다음과 같다.
+<br>
+
+`Object의 equals()`메서드를 보게되면 다음과 같다.
 
 ```jsx
 public boolean equals(Object obj) {
 	return (this == obj);
 }
 ```
+함수가 내부적으로 두 객체를 `==`연산자로 동작하기 때문에 주소를 비교하기 때문에 주소가 다르면(객체를 new로 생성)`false`를 반환하게 된다. <br>
+이러한 이유로 `equals()`를 오버라이딩 해주지 않을 경우 `this`와 `obj`의 주소를 비교하기 때문에 위 코드의 결과가 `false`가 나오게 된다.
 
-`equals()`를 오버라이딩 해주지 않을 경우 `this`와 `obj`의 주소를 비교하기 때문에 위 코드의 결과가 `false`가 나오게 된다.
+<br>
 
-만약 서로 다른 객체라도 값이 같으면 true를 반환하고 싶다면 아래와 같은 코드로 변경해야 한다.
+만약, 서로 다른 객체라도 값이 같을 때 `true`를 반환하고 싶다면 아래 코드처럼 equals를 오버라이딩 해주어야 한다.
 
 ```jsx
 public boolean equals(Object obj) {
@@ -649,15 +593,15 @@ public boolean equals(Object obj) {
 	return (this.value == v.value);
 }
 ```
+그러나 참조변수 형변환을 수행할 때 어떠한 값이 들어올 지 모르기 때문에 '형변환 오류'가 발생할 수도 있다. 그래서 `instanceof`연산자로 형변환이 가능한지 확인한 후에 수행하는 것이 바람직하다. 또한, 비교할 대상이 여러 개 존재하게 되면 대상의 멤버변수와 비교하도록 '오버라이딩'해야 한다.
 
-그러나 오류가 발생할 수도 있으니 아래와 같은 과정을 수행해야 한다.
+1. 참조변수의 형변환전에는 반드시 instanceof로 확인해야 한다.
+2. 입력받은 obj의 값을 클래스의 멤버변수(인스턴스 변수)로 비교한다(형변환)
 
-1. 입력받은 obj의 값을 클래스의 멤버변수(인스턴스 변수)로 비교한다(형변환)
-2. 참조변수의 형변환전에는 반드시 instanceof로 확인해야 한다.
+\-    
 
-왜냐하면, obj에 어떠한 데이터가 들어올 지 모르기 때문이다.
-
-1. `obj -> Value`변환할 때 `Value객체`가 아니면 `false` 를 반환하도록한다 ㅡ `if(!(obj instanceof Value)) return false;`
+1. `obj -> Value`변환할 때 `Value객체`가 아니면 `false` 를 반환하도록한다 <br> 
+`if(!(obj instanceof Value)) return false;`
 
 ```jsx
 public boolean equals(Object obj) {
@@ -668,8 +612,29 @@ public boolean equals(Object obj) {
 }
 ```
 
-그러나 우리가 그동안 String에서는 new로 생성해도 동일한 값을 가질 경우 true를 반환한 이유는 무엇인가?
+<br>
 
+Q. 우리가 그동안 String을 사용할 때 new로 생성해도 동일한 값을 가질 경우 true를 반환한 이유는 무엇인가?<br>
+A. String클래스는 Object의 equals()를 오버라이딩 하기 때문이다.
+
+<br>
+
+String클래스에 equals메서드의 코드는 아래와 같다.
+```java
+public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (anObject instanceof String) {
+            String aString = (String)anObject;
+            if (!COMPACT_STRINGS || this.coder == aString.coder) {
+                return StringLatin1.equals(value, aString.value);
+            }
+        }
+        return false;
+    }
+```
+`Object equals`와 `String equals`
 ```jsx
 public class equalsTest {
 	public static void main(String[] args) {
@@ -693,47 +658,37 @@ class Stud {
 }
 ```
 
-위 질문에 대한 대답은.. String클래스는 equals를 오버라이딩 한다.
-
-String클래스에 equals메서드의 코드는 아래와 같다.
-```java
-public boolean equals(Object anObject) {
-        if (this == anObject) {
-            return true;
-        }
-        if (anObject instanceof String) {
-            String aString = (String)anObject;
-            if (!COMPACT_STRINGS || this.coder == aString.coder) {
-                return StringLatin1.equals(value, aString.value);
-            }
-        }
-        return false;
-    }
-```
-
 정리하자면
 
-1. String클래스는 eqauls를 오버라이딩하기 때문에 new로 생성해도 s1.equals(s2)를 수행해도 true의 값이 나온다.
-2. 사용자가 정의하는 클래스에서의 eqauls는 기본적으로 Object의 equals를 사용하게 된다. 그러므로 new를 생성하게 되기 때문에 equals의 결과값이 올바르게 나오지 않는다. 이러한 이유로 객체간 값이 같은지 비교를 하려면 eqauls를 오버라이딩 해주어야 원하는 결과값을 반환하게 된다.
+1. `String`클래스는 `eqauls`를 오버라이딩하기 때문에 `new`로 생성해도 `s1.equals(s2)`를 수행했을 때 `true`를 반환한다.
+2. 사용자가 정의한 클래스의 `eqauls`는 기본적으로 Object의 equals를 사용하게 된다. 그러므로 `new`로 생성하게 되면 서로의 값이 아닌 주소를 비교하기 때문에 `equals`의 결과값이 올바르게 나오지 않는다.<br> 
 
-Q. equals를 오버라이딩 해주면 hashCode도 오버라이딩 해주어야 한다는데 맞는가?
+    이러한 이유로 객체간 값이 같은지 비교를 하려면 eqauls를 오버라이딩 해주어야 원하는 결과값을 반환하게 된다.
 
-A. 무조건. 이라고는 대답하지 못하겠지만.. HashSet과 HashMap은 데이터 추가전에 equals와 hashCode로 동일한 값이 있는지 비교하게 된다. 이렇게 hash함수를 사용할 때에는 hashCode 또한 오버라이딩 해주어야 하지만 단순히 객체와 객체간의 동일한 값을 비교하기 위해 equals를 해주어야 한다면 hashCode는 해주지 않아도 된다. 
+<br><br>
 
-단, 원래라면 equals를 오버라이딩 하면 hashCode도 오버라이딩 해주는 것이 원칙이다.
-왜냐하면 논리적으로 두 인스턴스가 같다면 같은 해시코드를 반환해야하기 때문이다.
+Q. `equals`를 오버라이딩 해주면 `hashCode`도 오버라이딩 해주어야 한다는데 맞는가? <br>
+A. **무조건.** 이라고는 대답하지 못하겠지만 `HashSet`과 `HashMap`은 데이터 추가전에 `equals`와 `hashCode`로 동일한 값이 있는지 비교하게 된다. 이렇게 `hash`함수를 사용할 때에는 `hashCode`도 오버라이딩 해주어야 하지만 <br><br>
+단순히 객체와 객체간의 동일한 값을 비교하기 위해 equals를 해주어야 한다면 hashCode는 해주지 않아도 무방하다.
 
-추가로 ==같은 경우에 기본 자료형에서는 값을 비교하고 참조 자료형에서는 주소를 비교한다.
+<br>
 
+단, 원래라면 `equals`를 오버라이딩 하면 `hashCode`도 오버라이딩 해주는 것이 원칙이다.<br>
+왜냐하면 논리적으로 두 인스턴스가 같다면 같은 해시코드를 반환하기 때문이다.
 
-`hashCode()` <br>
-`hashCode() `
+<br>
+
+*\* ==연산자는 **기본 자료형**에서는 값을 비교하고, **참조 자료형**에서는 주소를 비교한다. **
+
+<br>
+
+#### hashCode()
 - 객체의 해시코드(hash code)를 반환하는 메서드
 - 객체의 주소를 정수로 변환해서 반환
 - equals()를 오버라이딩하면 hashCode()도 오버라이딩 해야 한다.
-- **equals()의 결과가 true인 두 객체의 해시코드는 같아야 한다 ★**
+- **equals()의 결과가 true인 두 객체의 해시코드는 같아야 한다**
 
-즉, 이러한 이유로 HashSet과 HashMap을 이용할 때는 equals와 hashCode를 오버라이딩 해주는 것이 바람직하다.
+즉, 이러한 이유로 `HashSet`과 `HashMap`을 이용할 때는 `equals`와 `hashCode`를 오버라이딩 해주는 것이 바람직하다.
 ```java
 @Override
 public boolean equals(Object obj) {
@@ -750,54 +705,45 @@ public int hashCode() {
 }
 ```
 
-equals()는 obj와 클래스의 인스턴스 변수를 비교하도록 구현 (기본형은 ==으로 비교하고 그 외 나머지 타입은 equals()로 비교)
+`equals()`는 `obj`와 클래스의 인스턴스 변수를 비교하도록 구현 (기본형은 `==`으로 비교하고 그 외 나머지 타입은 `equals()`로 비교)
 
 ex) `this.age == p.age && this.name.equals(p.name)`
 
-hashCode()는 Objects클래스의 hash()함수로 구현
+`hashCode()`는 `Objects`클래스의 `hash()`함수로 구현
 
-<br>
+<br><br>
 
-해싱(hashing)
+#### 해싱(hashing)
 
-해시함수(hash function)로 해시테이블(hash table)에 데이터를 저장, 검색
-
-아래 이미지에 해시함수는 `Objects.hash()`를 사용하면 된다.
+키(`Key`)값을 해시 함수(`Hash Function`)에 대입시켜 계산한 후 나온 결과를 주소로 사용하여 데이터를 저장, 검색하는 방법
 
 ![hashfunc](https://user-images.githubusercontent.com/64416833/145587632-f5fed027-5e20-414e-b6df-4efd753af684.jpg)
 
-1번 : 키로 해시함수를 호출해서 해시코드를 얻게 되는데 해시코드는 배열의 인덱스로 위 이미지에서 7이 배열의 인덱스에 속한다
+<br>
 
-2번 : 해시코드(해시함수의 반환값, 즉 배열의 인덱스)에 대응하는 링크드 리스트를 배열에서 찾는다
+해시함수는 같은 키에 대해 항상 같은 해시코드를 반환해야 한다. 서로 다른 키일지라도 같은 값의 해시코드를 반환할 수도 있다.<br>
 
-3번 : 링크드리스트에서 키와 일치하는 데이터를 찾는다
+1번 : 키로 해시함수를 호출해서 해시코드를 얻게 되는데 해시코드는 배열의 인덱스로 위 이미지에서 7이 배열의 인덱스에 속한다<br>
+2번 : 해시코드(해시함수의 반환값, 즉 배열의 인덱스)에 대응하는 링크드 리스트를 배열에서 찾는다<br>
+3번 : 링크드리스트에서 키와 일치하는 데이터를 찾는다<br>
 
-해시함수는 같은 키에 대해 항상 같은 해시코드를 반환해야 한다.
+위 사진에서 `75xxxx...`와 `72xxxx...`는 같은 해시코드를 가지지만 키값은 다르기 때문에 데이터를 찾는데에 문제는 없다
 
-서로 다른 키일지라도 같은 값의 해시코드를 반환할 수도 있다.
+<br>
 
-ㄴ 위 사진에서 75xxxx...와 72xxxx...는 같은 해시코드를 가지지만 키값은 다르기 때문에 데이터를 찾는데에 문제는 없다
-
-우리의 예시로 들면
-
-HashSet은 HashMap으로 구현되어 있고, HashMap의 Key Object에 객체가 저장되고 Value Object에는 dummy Data가 들어간다.
-
-그리고 우리가 지금까지 알아본 hashCode()함수를 사용하고 그 나온 결과에 배열의 크기만큼 나눈값이 해시코드이다.
-
-해시코드의 인덱스에 데이터가 저장되기 때문에 인덱스에 여러개의 데이터가 저장될 수 있다.
-
- 아래 이미지는 해시 테이블이다.
-
-해시테이블은 linked List와 Array가 조합된 형태이다
-
-![hashtable](https://user-images.githubusercontent.com/64416833/145587563-f4643114-056d-48c5-aa12-1e144818731b.jpg)
+ 
 
 
-https://velog.io/@kekim20/JAVA-hashCode%EB%A9%94%EC%84%9C%EB%93%9C-%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9
+< 해시 테이블 ><br>
+해시테이블은 아래 이미지와 같이 `Array`와 `Linked List`가 조합된 형태이다
 
-https://velog.io/@kekim20/JAVA-equals%EB%A9%94%EC%84%9C%EB%93%9C-Object-String-Integer%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9
+![hashtable](https://user-images.githubusercontent.com/64416833/145587563-f4643114-056d-48c5-aa12-1e144818731b.jpg )
 
-https://tecoble.techcourse.co.kr/post/2020-07-29-equals-and-hashCode/
+
+
+<br>
+
+---
 
 <br>
 
