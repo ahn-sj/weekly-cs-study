@@ -10,22 +10,22 @@
 
 <br>
 
-## CH01. 21.11.16(화) - 이동
+## CH01. 21.11.16(화) - [이동](https://github.com/ahn-sj/weekly-cs-study/blob/main/Details/CHAP01.md)
 ### &nbsp;&nbsp;&nbsp;&nbsp; |-- ROWNUM
 
 <br>
 
-## CH02. 21.11.30(화) - 이동
+## CH02. 21.11.30(화) - [이동](https://github.com/ahn-sj/weekly-cs-study/blob/main/Details/CHAP02.md)
 ### &nbsp;&nbsp;&nbsp;&nbsp; |-- 컬렉션 프레임워크의 주요 인터페이스(List, Set, Map)
 
 <br>
 
-## CH03. 21.12.14(화) - 이동
+## CH03. 21.12.14(화) - [이동](https://github.com/ahn-sj/weekly-cs-study/blob/main/Details/CHAP03.md)
 ### &nbsp;&nbsp;&nbsp;&nbsp; |-- 래퍼클래스와 오토박싱, 언박싱 그리고 HashSet
 
 <br>
 
-## CH04 - 21.12.00(화) - 이동
+## CH04 - 21.12.00(화) - [이동](https://github.com/ahn-sj/weekly-cs-study/blob/main/Details/CHAP04.md)
 ### &nbsp;&nbsp;&nbsp;&nbsp; |-- 자바 메모리 구조(static, stack, heap)와 Call by value, Call by reference
 
 <br>
@@ -36,11 +36,17 @@
 
 
 
-    Iterator와 Comparator, Comparable (iterable <- collection <- List/Set)
-    OSI 7계층<br>
-    [HTTP Ref.](https://www.joinc.co.kr/w/Site/Network_Programing/AdvancedComm/HTTP)
-    HTTP란, HTTP 프로토콜, HTTP 동작원리, URL과 URI 
-    HTTP Request Methods(GET / POST / PUT / DELETE )
-    RESTful (GET / POST / PUT / DELETE )
-    HTTP 상태코드
-    세션, 캐시, 쿠키 <br> 
+Iterator와 Comparator, Comparable (iterable <- collection <- List/Set)
+
+OSI 7계층<br>
+
+[HTTP Ref.](https://www.joinc.co.kr/w/Site/Network_Programing/AdvancedComm/HTTP)
+HTTP란, HTTP 프로토콜, HTTP 동작원리, URL과 URI 
+
+HTTP Request Methods(GET / POST / PUT / DELETE )
+
+RESTful (GET / POST / PUT / DELETE )
+
+HTTP 상태코드
+
+세션, 캐시, 쿠키 <br> 
